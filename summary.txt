@@ -1,0 +1,31 @@
+IMDB MOVIE REVIEW SENTIMENT ANALYSIS
+
+DATASET AND PROBLEM
+This project uses the IMDB Dataset of 50K Movie Reviews published on Kaggle:
+https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews
+Each record contains a movie review and a positive/negative label. The task is supervised binary text classification: predict the sentiment expressed in a review.
+
+WHAT WAS DONE
+The notebook loads the CSV and inspects columns, data types, missing values, blank reviews, duplicate records, label consistency, class balance and review-length distributions. It decodes HTML entities, removes HTML tags, normalizes whitespace and sentiment labels, and removes blank reviews, invalid labels and duplicate review/label pairs. Review length is explored but not used as a predictive feature.
+
+WHY THESE DECISIONS WERE MADE
+A stratified 70%/15%/15% train/validation/test split preserves class proportions and separates model selection from final evaluation. TF-IDF converts text to weighted numeric features. Unigrams represent individual terms and bigrams capture short phrases such as “not good.” Negation words are retained because they can reverse sentiment. A separate scaling step is not used because sparse TF-IDF features are already weighted and generally do not require additional scaling.
+
+IMPLEMENTATION AND EXPERIMENTS
+Three classifiers are compared: Multinomial Naive Bayes, Logistic Regression and Linear SVM. Each is paired with a TF-IDF vectorizer in a scikit-learn pipeline so vocabulary fitting occurs only on training data. Validation macro-F1 selects the model. The chosen model is evaluated on a held-out test set with accuracy, macro precision, macro recall, macro-F1, a classification report and confusion matrix.
+
+RESULTS — FILL IN FROM YOUR NOTEBOOK RUN
+Selected model: __________________________________
+Test accuracy: ___________________________________
+Test macro precision: ____________________________
+Test macro recall: ________________________________
+Test macro-F1: ___________________________________
+Main confusion-matrix finding: ____________________
+
+Numeric results are intentionally left blank until the notebook is run on the downloaded CSV and installed software versions.
+
+SAVED MODEL AND PROTOTYPE
+The notebook saves `imdb_sentiment_model.pkl`, a joblib artifact containing the fitted TF-IDF vectorizer and classifier. In Google Colab it triggers a download; in local Jupyter the model is saved in the working directory. `cli.py` loads the artifact and predicts sentiment for a command-line review or in interactive mode.
+
+LIMITATIONS
+The model is intended for movie reviews and may be less reliable on sarcasm, mixed sentiment, slang, very short text, or other domains such as product reviews and social media. It should not be used for high-stakes decisions.
